@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <title>Wing Premium Quoted Price System</title>
+  <link rel="icon" href="img/WPT Logo PNG.png">
+  <script src="NotoSansKhmer-Regular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
+    
+  <!-- bootstrap responsive cdn -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js">
+
+  <!-- font  -->
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Martian+Mono:wght@100..800&family=Odor+Mean+Chey&display=swap" rel="stylesheet">
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- <script src="../path/to/flowbite/dist/flowbite.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+  
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <img src="img/logo.png" alt="">
+  </nav>
+  <div class="container">
+    <!-- <h1>Form Data</h1> -->
+    
+    <div class="formArea">
+      <div class="header">
+        <h3>បញ្ចូលព័ត៌មាននៅទីនេះ</h3>
+      </div>
+      <br>
+      <form id="myForm">
+        <div class="row1">
+          <div class="chooseAirlines">
+            <span for="airlines"><span style="color: red; font-size: 15px;">*</span> ហោះហើរតាម </span>
+            <select id="airline" name="airline">
+              <option value="cambodia_airways">Cambodia Airways</option>
+              <option value="sky_angkor">Sky Angkor Airlines</option>
+              <option value="air_cambodia">Air Cambodia</option>
+              <option value="air_asia">Air Asia</option>
+              <option value="bangkok_airways">Bangkok Airways</option>
+              <option value="thai_airways">Thai Airways</option>
+              <option value="vietjet_air">Vietjet Air</option>
+            
+              <option value="Emirates">Emirates</option>
+              <option value="singapore_Airlines">Singapor Airlines</option>
+            </select>
+          </div>
+          
+          <div class="triptype">
+            <!-- <span>Trip Type:</span> -->
+            <input type="radio" class="largeicon" id="OneWay" name="tripType" value="OneWay">
+            <label for="OneWay">One Way</label>
+            <input type="radio" class="largeicon" id="RoundTrip" name="tripType" value="RoundTrip" checked>
+            <label for="RoundTrip" >Round Trip</label><br><br>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="from">
+            <span><span style="color: red; font-size: 15px;">*</span> ចេញដំណើរពី</span>
+            <select id="thefrom" name="thefrom">
+              <option value="Phnom Penh">Phnom Penh</option>
+              <option value="Siem Reap">Siem Reap</option>
+              <option value="Sihanoukville">Sihanoukville</option>
+              <option value="Bang Kok">BangKok</option>
+              <option value="GuangZhou">GuangZhou</option>
+              <option value="HongKong">Hong Kong</option>
+              <option value="Incheon">Incheon</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Melbourne">Melbourne</option>
+              <option value="Sydney">Sydney</option>
+              <option value="del">New Delhi</option>
+            </select>
+          </div>
+          <div class="to">
+            <span> <span style="color: red; font-size: 15px;">*</span> ឆ្ពោះទៅកាន់</span>
+            <select id="theto" name="theto">
+              <option value="Bang Kok">BangKok</option>
+              <option value="Phnom Penh">Phnom Penh</option>
+              <option value="Siem Reap">Siem Reap</option>
+              <option value="Sihanoukville">Sihanoukville</option>
+              <option value="GuangZhou">GuangZhou</option>
+              <option value="HongKong">Hong Kong</option>
+              <option value="Incheon">Incheon</option>
+              <option value="Singapore">Singapore</option>
+              <option value="Melbourne">Melbourne</option>
+              <option value="Sydney">Sydney</option>
+              <option value="New Delhi">New Delhi</option>
+            </select>
+          </div>
+        </div>
+        <div class="row4 air-port">
+          <label for="" style="color: #13813A;"><span style="color: red; font-size: 15px;">*</span> ចុះចតនៅព្រលាន</label>
+          <select id="airport" name="airport">
+            <option value="Suvarnabhumi Airport (BKK)">Suvarnabhumi Airport (BKK) </option>
+            <option value="Donmueang International Airport (DMK)">Donmueang International Airport (DMK) </option>
+            <option value="Siem Reap Angkor International Airport (SAI )">Siem Reap Angkor International Airport (SAI )  </option>
+            <option value="Sihanouk International Airport (KOS) ">Sihanouk International Airport (KOS) </optio >
+            <option value="Incheon International Airport (ICN)">Incheon International Airport (ICN)</option>
+            <option value="Guangzhou Baiyun International Airport (CAN)">Guangzhou Baiyun International Airport (CAN)</option>
+            <option value="Hong Kong International Airport (HKG)"> Hong Kong International Airport (HKG)</option>
+            <option value="Singapore Changi Airport (SIN)">Singapore Changi Airport (SIN)</option>
+            <option value="Melbourne Airport (MEL)">Melbourne Airport (MEL) </option>
+            <option value="Sydney Kingsford Smith Airport (SYD)">Sydney Kingsford Smith Airport (SYD)</option>
+            <option value="Indira Gandhi International Airport (DEL)">Indira Gandhi International Airport (DEL)</option>
+          </select>
+        </div>
+        <div class="row3">
+          <div class="timeDep">
+            <span><span style="color: red; font-size: 15px;">*</span> ម៉ោងចេញ</span>
+            <input  type="text" id="timeDep" name="timeDep" placeholder="បញ្ចូលម៉ោងចេញដំណើរ " >
+          </div>
+
+          <div class="timeRetn">
+            <span><span style="color: red; font-size: 15px;">*</span> ម៉ោងមកវិញ</span>
+            <input type="text" id="timeRtrn" name="timeRtrn" placeholder="បញ្ចូលម៉ោងត្រឡប់មកវិញ">
+          </div>
+        </div>
+        <br>
+        <div class="row5">
+          <div class="timeDep">
+            <span><span style="color: red; font-size: 15px;">*</span> ចេញដំណើរ</span>
+            <input type="date"  placeholder="MY PLACEHOLDER" id="dateDep" name="dateDep"  >
+          </div>
+          <div class="timeRetn">
+            <span><span style="color: red; font-size: 15px;">*</span> មកវិញ</span>
+            <input type="date" id="dateRtrn" name="dateRtrn">
+          </div>
+        </div>
+        <br>
+        <div class="row4 seatType">
+          <label for=""><span style="color: red; font-size: 15px;">*</span> ប្រភេទកៅអី</label>
+            <select id="seatType" name="seatType">
+              <option value="EconomyClass">Economy Class</option>
+              <option value="BusinessClass">Business Class</option>
+            </select>
+        </div>
+        <div class="row4">
+          <div class="middle">
+            <span><span style="color: red; font-size: 15px;">*</span> តម្លៃ</span>
+            <input type="number" id="price" name="price">
+          </div>
+          <div class="right">
+            <span><span style="color: red; font-size: 15px;">*</span> ទទួលបានគីឡូ</span>
+            <input type="number" id="kilo" name="kilo">
+          </div>
+        </div>
+        <br><br>
+      </form>
+      <div class="bar">
+        <!-- <div class="left">
+          <div class="bxlg1"><img src="img/air cambodia.png" alt=""></div>
+          <div class="bxlg1"><img src="img/ca_logo_horizontal.png" alt=""></div>
+          <div class="bxlg1"><img src="img/sky angkor airlines.png" alt=""></div>
+          <div class="bxlg1"><img src="img/Thai-AirAsia-Logo-2009.png" alt=""></div>
+        </div> -->
+        <div class="right">
+          <button type="button" onclick="saveData()">Save</button>
+          <button type="button" onclick="previewData()">Preview</button>
+        </div><br><br>
+      </div>
+      
+    </div>
+    <div id="previewForm" style="display: none;">
+      <div id="previewDisplay" style="margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;"></div><br>
+      <div class="psition">
+        <button type="button" onclick="clearAllData()" style="background-color: red;">Clear All</button>
+        <button type="button" onclick="downloadPDF()">Download PDF</button>
+      </div>
+      
+    </div>  
+  </div>
+  
+  <script src="script.js">
+    
+  </script>
+</body>
+</html>

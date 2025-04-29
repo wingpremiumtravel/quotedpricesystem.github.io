@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPT Quoting Price</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Quoting Price System</h2>
+        <form id="invoiceForm">
+            <h3>Select Your Route</h3>
+            <label>From:</label>
+            <select id="from">
+                <option>Phnom Penh</option>
+                <option>Siem Reap</option>
+                <option>Preah Sihanoukville</option>
+                <option>Bangkok</option>
+            </select>
+            
+            <label>To:</label>
+            <select id="to">
+                <option>Phnom Penh</option>
+                <option>Siem Reap</option>
+                <option>Preah Sihanoukville</option>
+                <option>Bangkok</option>
+            </select>
+            
+            <label>Trip Type:</label>
+            <div>
+                <input type="radio" name="trip" value="One Way" checked> One Way
+                <input type="radio" name="trip" value="Round Trip"> Round Trip
+            </div>
+
+            <label>Invoice No:</label>
+            <input type="text" id="invoiceNo" placeholder="Enter Invoice Number">
+            
+            <label>Date:</label>
+            <input type="date" id="invoiceDate">
+            
+            <label>Customer Name:</label>
+            <input type="text" id="customerName" placeholder="Enter Customer Name">
+            
+            <label>Items (separate by comma):</label>
+            <textarea id="items" placeholder="Example: Item1 - $10, Item2 - $20"></textarea>
+            
+            <label>Total Amount ($):</label>
+            <input type="number" id="totalAmount" placeholder="Total Amount">
+            
+            <button type="button" onclick="saveInvoice()">Save</button>
+            <button type="button" onclick="showPreview()">Preview</button>
+        </form>
+
+        <!-- Invoice Preview -->
+        <div id="invoicePreview" class="invoice-preview" style="display:none;">
+            <h3>Saved Invoices</h3>
+            <div id="savedInvoices"></div>
+            <button class="clear-btn" onclick="clearAllInvoices()">Clear All</button>
+        </div>
+
+        <!-- Hidden Div for High-Quality PDF -->
+        <div id="pdfContent" style="display: none;"></div>
+
+    </div>
+
+    <script>
+        let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
+
+        function saveInvoice() {
+            let selectedTrip = document.querySelector('input[name="trip"]:checked').value;
+
+            let invoiceData = {
+                from: document.getElementById("from").value,
+                to: document.getElementById("to").value,
+                trip: selectedTrip,
+                invoiceNo: document.getElementById("invoiceNo").value,
+                date: document.getElementById("invoiceDate").value,
+                customer: document.getElementById("customerName").value,
+                items: document.getElementById("items").value.split(","),
+                total: document.getElementById("totalAmount").value
+            };
+
+            invoices.push(invoiceData);
+            localStorage.setItem("invoices", JSON.stringify(invoices));
+
+            document.getElementById("invoiceForm").reset(); // Clear form
+            alert("Invoice saved!");
+        }
+
+        function showPreview() {
+            let savedInvoicesDiv = document.getElementById("savedInvoices");
+            savedInvoicesDiv.innerHTML = ""; // Clear previous content
+
+            invoices.forEach((invoice, index) => {
+                let invoiceDiv = document.createElement("div");
+                invoiceDiv.style.border = "1px solid #ddd";
+                invoiceDiv.style.padding = "10px";
+                invoiceDiv.style.margin = "10px 0";
+
+                invoiceDiv.innerHTML = `
+                    <p><strong>Route:</strong> ${invoice.from} → ${invoice.to} (${invoice.trip})</p>
+                    <p><strong>Invoice No:</strong> ${invoice.invoiceNo}</p>
+                    <p><strong>Date:</strong> ${invoice.date}</p>
+                    <p><strong>Customer:</strong> ${invoice.customer}</p>
+                    <p><strong>Items:</strong></p>
+                    <ul>${invoice.items.map(item => `<li>${item.trim()}</li>`).join("")}</ul>
+                    <p><strong>Total:</strong> $${invoice.total}</p>
+                    <button onclick="downloadPDF(${index})">Download PDF</button>
+                `;
+
+                savedInvoicesDiv.appendChild(invoiceDiv);
+            });
+
+            document.getElementById("invoicePreview").style.display = "block";
+        }
+
+        function downloadPDF(index) {
+            let invoiceData = invoices[index];
+
+            let pdfContent = document.getElementById("pdfContent");
+            pdfContent.innerHTML = `
+                <div style="font-family: Arial, sans-serif; text-align: left; padding: 20px; font-size: 14px;">
+                    <h2 style="text-align: center;">Invoice</h2>
+                    <p><strong>Route:</strong> ${invoiceData.from} → ${invoiceData.to} (${invoiceData.trip})</p>
+                    <p><strong>Invoice No:</strong> ${invoiceData.invoiceNo}</p>
+                    <p><strong>Date:</strong> ${invoiceData.date}</p>
+                    <p><strong>Customer:</strong> ${invoiceData.customer}</p>
+                    <p><strong>Items:</strong></p>
+                    <ul>${invoiceData.items.map(item => `<li>${item.trim()}</li>`).join("")}</ul>
+                    <p><strong>Total:</strong> $${invoiceData.total}</p>
+                </div>
+            `;
+
+            html2pdf()
+                .set({
+                    margin: 10,
+                    filename: `Invoice_${invoiceData.invoiceNo}.pdf`,
+                    image: { type: 'jpeg', quality: 1 }, // Higher quality
+                    html2canvas: { scale: 2 }, // Scale up for better resolution
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                })
+                .from(pdfContent)
+                .save();
+        }
+
+        function clearAllInvoices() {
+            if (confirm("Are you sure you want to clear all invoices?")) {
+                localStorage.removeItem("invoices");
+                invoices = []; // Reset array
+                document.getElementById("savedInvoices").innerHTML = "";
+                document.getElementById("invoicePreview").style.display = "none";
+                alert("All invoices cleared!");
+            }
+        }
+    </script>
+
+</body>
+</html>
